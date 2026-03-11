@@ -1,0 +1,35 @@
+# Data (too large for git)
+data/
+*.jpg
+*.png
+*.npy
+*.pt
+*.pth
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+.Python
+*.so
+.ipynb_checkpoints/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Outputs (except sample results)
+outputs/checkpoints/
+outputs/logs/
+*.log
+
+# Keep structure but ignore contents
+!outputs/visualizations/.gitkeep
+!data/.gitkeep
