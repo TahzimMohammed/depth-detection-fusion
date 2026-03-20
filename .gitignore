@@ -1,35 +1,48 @@
-# Data (too large for git)
-data/
-*.jpg
-*.png
-*.npy
-*.pt
-*.pth
-
 # Python
 __pycache__/
-*.pyc
-*.pyo
-*.egg-info/
-.Python
+*.py[cod]
+*$py.class
 *.so
-.ipynb_checkpoints/
+.Python
+*.egg-info/
+dist/
+build/
+
+# PyTorch
+*.pth
+*.pt
+*.ckpt
+
+# Data (too large - don't commit!)
+data/kitti/raw/
+data/kitti/data_depth_annotated/
+*.zip
+*.tar.gz
+
+# Outputs
+outputs/
+checkpoints/
+logs/
+runs/
+*.log
+
+# Environment
+depth_env/
+env/
+venv/
 
 # IDE
 .vscode/
 .idea/
 *.swp
-*.swo
 
 # OS
 .DS_Store
 Thumbs.db
 
-# Outputs (except sample results)
-outputs/checkpoints/
-outputs/logs/
-*.log
+# Jupyter
+.ipynb_checkpoints/
 
-# Keep structure but ignore contents
-!outputs/visualizations/.gitkeep
+# Keep directory structure
 !data/.gitkeep
+!outputs/.gitkeep
