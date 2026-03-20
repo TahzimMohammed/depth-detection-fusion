@@ -11,20 +11,6 @@ This project implements monocular depth estimation using ResNet18 encoder-decode
 - **Detection:** YOLOv8 (for boundary guidance)
 - **Dataset:** KITTI Eigen split
 
-## Project Structure
-```
-depth-detection-fusion/
-├── data/                   # Datasets
-├── src/                    # Source code
-│   ├── models/            # Model architectures
-│   ├── data/              # Data loading
-│   ├── losses/            # Loss functions
-│   └── utils/             # Utilities
-├── notebooks/             # Jupyter notebooks for experiments
-├── outputs/               # Model outputs
-└── docs/                  # Documentation
-```
-
 ## Setup
 ```bash
 conda create -n depth python=3.10
