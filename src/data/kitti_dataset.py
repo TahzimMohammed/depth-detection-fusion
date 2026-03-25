@@ -2,7 +2,6 @@
 KITTI Dataset Loader
 Loads RGB images and corresponding depth maps for training
 """
-
 import os
 from pathlib import Path
 import numpy as np
@@ -13,31 +12,15 @@ from torchvision import transforms
 
 
 class KITTIDepthDataset(Dataset):
-    """
-    KITTI Depth Estimation Dataset
-    
-    Returns:
-        image: RGB image [3, H, W]
-        depth: Depth map [1, H, W]
-    """
     
     def __init__(self, data_path, split_file, mode='train'):
-        """
-        Args:
-            data_path: Path to KITTI data (e.g., 'data/kitti')
-            split_file: Path to split file (e.g., 'data/kitti/splits/train_files.txt')
-            mode: 'train' or 'val'
-        """
         self.data_path = Path(data_path)
         self.mode = mode
         
-        # Read split file
+        # Reading split files
         with open(split_file, 'r') as f:
             self.filenames = f.read().splitlines()
-        
         print(f"[{mode.upper()}] Loaded {len(self.filenames)} samples")
-        
-        # Image transformations
         self.to_tensor = transforms.ToTensor()
         
         # Data augmentation for training
@@ -55,28 +38,18 @@ class KITTIDepthDataset(Dataset):
         return len(self.filenames)
     
     def __getitem__(self, idx):
-        """
-        Load one training sample
-        
-        Returns:
-            dict with keys:
-                'image': RGB image tensor [3, H, W]
-                'depth': Depth map tensor [1, H, W]
-                'filename': Original filename
-        """
         # Parse filename
         line = self.filenames[idx].split()
-        folder = line[0]  # e.g., "2011_09_26/2011_09_26_drive_0009_sync"
-        frame_id = line[1]  # e.g., "0000000069"
-        side = line[2]  # "l" for left camera
+        folder = line[0] 
+        frame_id = line[1]  
+        side = line[2]  
         
-        # Construct paths
         # RGB image path
         rgb_path = self.data_path / "raw" / folder / "image_02" / "data" / f"{frame_id}.png"
         
         # Depth ground truth path
-        date = folder.split('/')[0]  # "2011_09_26"
-        drive = folder.split('/')[1]  # "2011_09_26_drive_0009_sync"
+        date = folder.split('/')[0] 
+        drive = folder.split('/')[1] 
         depth_path = self.data_path / "data_depth_annotated" / "train" / drive / "proj_depth" / "groundtruth" / "image_02" / f"{frame_id}.png"
         
         # Load RGB image
@@ -84,10 +57,9 @@ class KITTIDepthDataset(Dataset):
         
         # Load depth
         depth_png = np.array(Image.open(depth_path), dtype=np.float32)
-        # KITTI depth is stored as uint16, divide by 256 to get meters
         depth = depth_png / 256.0
         
-        # Resize to standard size (KITTI uses 352x1216 or similar, we'll use 192x640)
+        # Resize to standard size 
         image = image.resize((640, 192), Image.LANCZOS)
         depth = Image.fromarray(depth).resize((640, 192), Image.NEAREST)
         depth = np.array(depth)
@@ -97,11 +69,10 @@ class KITTIDepthDataset(Dataset):
             image = self.color_aug(image)
         
         # Convert to tensors
-        image = self.to_tensor(image)  # [3, H, W], values in [0, 1]
-        depth = torch.from_numpy(depth).unsqueeze(0)  # [1, H, W]
+        image = self.to_tensor(image) 
+        depth = torch.from_numpy(depth).unsqueeze(0) 
         
         # Create mask for valid depth values
-        # KITTI has some pixels with no depth (depth = 0)
         valid_mask = (depth > 0).float()
         
         return {
@@ -113,17 +84,7 @@ class KITTIDepthDataset(Dataset):
 
 
 def get_kitti_loaders(data_path, batch_size=4, num_workers=2):
-    """
-    Create train and validation data loaders
-    
-    Args:
-        data_path: Path to KITTI data
-        batch_size: Batch size for training
-        num_workers: Number of workers for data loading
-    
-    Returns:
-        train_loader, val_loader
-    """
+
     # Create datasets
     train_dataset = KITTIDepthDataset(
         data_path=data_path,
@@ -197,4 +158,4 @@ if __name__ == "__main__":
     print(f"  Depths: {batch['depth'].shape}")
     print(f"  Valid masks: {batch['valid_mask'].shape}")
     
-    print("\n✅ Data loader working perfectly!")
+    print("\nData loader working perfectly!")

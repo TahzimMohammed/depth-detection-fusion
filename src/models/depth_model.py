@@ -5,31 +5,11 @@ ResNet18 Encoder + U-Net Decoder
 
 import torch
 import torch.nn as nn
-
-# Handle both direct execution and module imports
-try:
-    from .encoder import ResNet18Encoder
-    from .decoder import DepthDecoder
-except ImportError:
-    from encoder import ResNet18Encoder
-    from decoder import DepthDecoder
+from .encoder import ResNet18Encoder
+from .decoder import DepthDecoder
 
 
 class DepthEstimationModel(nn.Module):
-    """
-    Complete monocular depth estimation model.
-    
-    Architecture:
-        Input: RGB image [B, 3, H, W]
-        ↓
-        ResNet18 Encoder (pretrained on ImageNet)
-        ↓
-        Multi-scale features
-        ↓
-        U-Net Decoder (with skip connections)
-        ↓
-        Output: Depth map [B, 1, H, W]
-    """
     
     def __init__(self, pretrained=True):
         super().__init__()
@@ -38,7 +18,7 @@ class DepthEstimationModel(nn.Module):
         self.decoder = DepthDecoder()
         
         print("="*60)
-        print("✅ Complete Depth Model Initialized")
+        print("Complete Depth Model Initialized")
         print("="*60)
         
         # Count parameters
@@ -46,9 +26,9 @@ class DepthEstimationModel(nn.Module):
         dec_params = sum(p.numel() for p in self.decoder.parameters())
         total_params = enc_params + dec_params
         
-        print(f"  Encoder parameters: {enc_params:,}")
-        print(f"  Decoder parameters: {dec_params:,}")
-        print(f"  Total parameters: {total_params:,}")
+        print(f"Encoder parameters: {enc_params:,}")
+        print(f"Decoder parameters: {dec_params:,}")
+        print(f"Total parameters: {total_params:,}")
         print("="*60)
     
     def forward(self, x):
@@ -71,11 +51,6 @@ class DepthEstimationModel(nn.Module):
 
 
 if __name__ == "__main__":
-    import sys
-    import os
-    # Add parent directory to path
-    sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-    
     print("="*60)
     print("Testing Complete Depth Model")
     print("="*60)
@@ -84,15 +59,15 @@ if __name__ == "__main__":
     model = DepthEstimationModel(pretrained=True)
     
     # Test with realistic KITTI size
-    print("\n🧪 Testing with KITTI-sized input:")
+    print("\nTesting with KITTI-sized input:")
     
     batch_size = 4
     dummy_images = torch.randn(batch_size, 3, 192, 640)
     
-    print(f"  Input: {dummy_images.shape}")
+    print(f"Input: {dummy_images.shape}")
     
     # Forward pass
-    with torch.no_grad():
+    with torch.no_grad():  # Don't compute gradients for testing
         predicted_depth = model(dummy_images)
     
     print(f"  Output: {predicted_depth.shape}")
@@ -100,7 +75,7 @@ if __name__ == "__main__":
     
     # Test on GPU/MPS
     device = torch.device("mps" if torch.backends.mps.is_available() else "cpu")
-    print(f"\n🚀 Testing on {device}:")
+    print(f"\nTesting on {device}:")
     
     model = model.to(device)
     dummy_images = dummy_images.to(device)
@@ -108,19 +83,19 @@ if __name__ == "__main__":
     with torch.no_grad():
         predicted_depth = model(dummy_images)
     
-    print(f"  ✅ Model runs on {device}")
-    print(f"  Output device: {predicted_depth.device}")
+    print(f"Model runs on {device}")
+    print(f"Output device: {predicted_depth.device}")
     
     # Memory usage
-    print(f"\n💾 Model size:")
+    print(f"\nModel size:")
     total_params = sum(p.numel() for p in model.parameters())
     trainable_params = sum(p.numel() for p in model.parameters() if p.requires_grad)
     
-    print(f"  Total parameters: {total_params:,}")
-    print(f"  Trainable parameters: {trainable_params:,}")
-    print(f"  Model size: ~{total_params * 4 / 1024**2:.1f} MB (float32)")
+    print(f"Total parameters: {total_params:,}")
+    print(f"Trainable parameters: {trainable_params:,}")
+    print(f"Model size: ~{total_params * 4 / 1024**2:.1f} MB (float32)")
     
     print("\n" + "="*60)
-    print("✅ COMPLETE MODEL WORKING!")
+    print("COMPLETE MODEL WORKING!")
     print("Ready to train on KITTI dataset!")
     print("="*60)

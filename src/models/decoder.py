@@ -10,15 +10,10 @@ import torch.nn as nn
 class DepthDecoder(nn.Module):
     """
     U-Net style decoder with skip connections.
-    
     Takes encoder features and progressively upsamples to predict depth.
     """
     
     def __init__(self, num_ch_enc=[64, 128, 256, 512]):
-        """
-        Args:
-            num_ch_enc: Number of channels at each encoder scale
-        """
         super().__init__()
         
         self.num_ch_enc = num_ch_enc
@@ -56,7 +51,6 @@ class DepthDecoder(nn.Module):
         print("U-Net Decoder initialized")
     
     def _make_conv_block(self, in_channels, out_channels):
-        """Create a conv block: Conv + ReLU + Conv + ReLU"""
         return nn.Sequential(
             nn.Conv2d(in_channels, out_channels, kernel_size=3, padding=1),
             nn.ReLU(inplace=True),
@@ -65,19 +59,6 @@ class DepthDecoder(nn.Module):
         )
     
     def forward(self, features):
-        """
-        Forward pass through decoder
-        
-        Args:
-            features: List of encoder features [feat1, feat2, feat3, feat4]
-                feat1: [B, 64, H/4, W/4]
-                feat2: [B, 128, H/8, W/8]
-                feat3: [B, 256, H/16, W/16]
-                feat4: [B, 512, H/32, W/32]
-        
-        Returns:
-            depth: Predicted depth map [B, 1, H, W]
-        """
         feat1, feat2, feat3, feat4 = features
         
         # Decode from smallest to largest
