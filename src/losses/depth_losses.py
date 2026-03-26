@@ -8,14 +8,6 @@ import torch.nn.functional as F
 
 
 class DepthLoss(nn.Module):
-    """
-    Combined loss for depth estimation training.
-    
-    Includes:
-        1. L1 Loss (mean absolute error)
-        2. Scale-Invariant Loss (from Eigen et al. 2014)
-        3. Edge-Aware Smoothness Loss (from MonoDepth2)
-    """
     
     def __init__(self, lambda_si=0.5, lambda_smooth=0.001):
         """
@@ -34,19 +26,7 @@ class DepthLoss(nn.Module):
         print(f"   Smoothness weight: {lambda_smooth}")
     
     def forward(self, pred, target, image, valid_mask):
-        """
-        Compute total loss
-        
-        Args:
-            pred: Predicted depth [B, 1, H, W]
-            target: Ground truth depth [B, 1, H, W]
-            image: Original RGB image [B, 3, H, W] (for edge-aware smoothness)
-            valid_mask: Mask of valid depth pixels [B, 1, H, W]
-        
-        Returns:
-            total_loss: Combined loss
-            loss_dict: Dictionary with individual losses
-        """
+    
         # L1 Loss
         l1_loss = self.l1_loss(pred, target, valid_mask)
         

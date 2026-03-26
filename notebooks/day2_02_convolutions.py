@@ -1,5 +1,5 @@
 """
-Day 2, Exercise 2: Understanding Convolutions
+Exercise 2: Understanding Convolutions
 How CNNs extract features from images
 """
 import torch
