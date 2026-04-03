@@ -10,10 +10,8 @@ from typing import List, Dict, Tuple, Optional
 
 
 class DepthFusion:
-    """
+
     # Fuses depth predictions with object detection bounding boxes.
-    """
-    
     def __init__(self, 
                  filter_size: int = 5, 
                  min_box_size: int = 20,
@@ -126,7 +124,7 @@ class DepthFusion:
         To Compute statistics about the refinement process.
         This helps to evaluate how much the fusion changed the depth map.
         """
-
+        
         # Compute difference
         diff = np.abs(depth_refined - depth_baseline)
         
