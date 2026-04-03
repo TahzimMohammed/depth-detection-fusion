@@ -10,11 +10,6 @@ import torch.nn.functional as F
 class DepthLoss(nn.Module):
     
     def __init__(self, lambda_si=0.5, lambda_smooth=0.001):
-        """
-        Args:
-            lambda_si: Weight for scale-invariant loss
-            lambda_smooth: Weight for smoothness loss
-        """
         super().__init__()
         
         self.lambda_si = lambda_si
@@ -96,19 +91,19 @@ if __name__ == "__main__":
     valid_mask = torch.ones(batch_size, 1, 192, 640)
     
     print(f"\nTesting with dummy data:")
-    print(f"  Predicted depth: {pred_depth.shape}")
-    print(f"  Target depth: {target_depth.shape}")
-    print(f"  Image: {image.shape}")
-    print(f"  Valid mask: {valid_mask.shape}")
+    print(f"Predicted depth: {pred_depth.shape}")
+    print(f"Target depth: {target_depth.shape}")
+    print(f"Image: {image.shape}")
+    print(f"Valid mask: {valid_mask.shape}")
     
     # Compute loss
     total_loss, loss_dict = criterion(pred_depth, target_depth, image, valid_mask)
     
     print(f"\nLoss values:")
-    print(f"  Total loss: {loss_dict['total']:.4f}")
-    print(f"  L1 loss: {loss_dict['l1']:.4f}")
-    print(f"  Scale-invariant loss: {loss_dict['si']:.4f}")
-    print(f"  Smoothness loss: {loss_dict['smooth']:.4f}")
+    print(f"Total loss: {loss_dict['total']:.4f}")
+    print(f"L1 loss: {loss_dict['l1']:.4f}")
+    print(f"Scale-invariant loss: {loss_dict['si']:.4f}")
+    print(f"Smoothness loss: {loss_dict['smooth']:.4f}")
     
     # Test backward pass
     print(f"\nTesting backward pass:")
@@ -116,17 +111,17 @@ if __name__ == "__main__":
     print(f"Gradients computed successfully")
     
     # Test with partial valid mask
-    print(f"\n🧪 Testing with partial valid mask:")
+    print(f"\nTesting with partial valid mask:")
     pred_depth = torch.rand(batch_size, 1, 192, 640) * 80
     target_depth = torch.rand(batch_size, 1, 192, 640) * 80
     valid_mask = torch.rand(batch_size, 1, 192, 640) > 0.5
     valid_pixels = valid_mask.sum().item()
     total_pixels = valid_mask.numel()
     
-    print(f"  Valid pixels: {int(valid_pixels)} / {total_pixels} ({100*valid_pixels/total_pixels:.1f}%)")
+    print(f"Valid pixels: {int(valid_pixels)} / {total_pixels} ({100*valid_pixels/total_pixels:.1f}%)")
     
     total_loss, loss_dict = criterion(pred_depth, target_depth, image, valid_mask.float())
-    print(f"  Total loss with partial mask: {loss_dict['total']:.4f}")
+    print(f"Total loss with partial mask: {loss_dict['total']:.4f}")
     
     print("\n" + "="*60)
     print("ALL LOSS FUNCTIONS WORKING!")
