@@ -103,9 +103,9 @@ def test_detector():
     
     print("\n✓ Detection module is ready!")
     print("\nTo use in your code:")
-    print("  from detection import ObjectDetector")
-    print("  detector = ObjectDetector()")
-    print("  detections = detector.detect('image.jpg')")
+    print("from detection import ObjectDetector")
+    print("detector = ObjectDetector()")
+    print("detections = detector.detect('image.jpg')")
     print("\n" + "="*60)
 
 
