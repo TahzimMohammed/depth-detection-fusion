@@ -1,40 +1,42 @@
-# Python
-__pycache__/
-*.py[cod]
-*$py.class
-*.so
-.Python
-*.egg-info/
-dist/
-build/
+# Data files (too large for GitHub)
+data/kitti/
+*.zip
+*.tar
+*.tar.gz
 
-# PyTorch
+# Model checkpoints (too large)
+checkpoints/
 *.pth
 *.pt
 *.ckpt
 
-# Data (too large - don't commit!)
-data/kitti/raw/
-data/kitti/data_depth_annotated/
-*.zip
-*.tar.gz
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so
 
-# Outputs
-outputs/
-checkpoints/
-logs/
-runs/
-*.log
-
-# Environment
-depth_env/
-env/
+# Virtual environments
 venv/
+env/
+ENV/
 
 # IDE
 .vscode/
 .idea/
 *.swp
+*.swo
+
+# Logs
+logs/
+*.log
+
+# Results (can be large)
+outputs/
+results/*.png
+results/*.jpg
 
 # OS
 .DS_Store
@@ -43,6 +45,5 @@ Thumbs.db
 # Jupyter
 .ipynb_checkpoints/
 
-# Keep directory structure
-!data/.gitkeep
-!outputs/.gitkeep
+# Training history (if large)
+# training_history.json

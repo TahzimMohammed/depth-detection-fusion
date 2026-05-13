@@ -8,18 +8,13 @@ from typing import List, Dict, Tuple, Union
 from PIL import Image
 
 class ObjectDetector:
-    """
-    YOLOv8-based object detector for depth fusion.
-    """
-    
+    #YOLOv8-based object detector for depth fusion.
     def __init__(self, model_name: str = 'yolov8n.pt', conf_threshold: float = 0.5):
-        """
-        Initialize the object detector.
-        """
+        #Initialize the object detector.
         print(f"Initializing YOLOv8 detector: {model_name}")
         self.model = YOLO(model_name)
         self.conf_threshold = conf_threshold
-        print(f"✓ Detector loaded (confidence threshold: {conf_threshold})")
+        print(f"Detector loaded (confidence threshold: {conf_threshold})")
         
     def detect(self, image: Union[np.ndarray, Image.Image, str]) -> List[Dict]:
         # Run object detection on an image.

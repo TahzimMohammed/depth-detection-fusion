@@ -154,7 +154,7 @@ if __name__ == "__main__":
     
     batch = next(iter(train_loader))
     print(f"\nBatch loaded:")
-    print(f"  Images: {batch['image'].shape}")
+    print(f"Images: {batch['image'].shape}")
     print(f"  Depths: {batch['depth'].shape}")
     print(f"  Valid masks: {batch['valid_mask'].shape}")
     
