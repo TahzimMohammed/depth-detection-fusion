@@ -1,6 +1,5 @@
 # Object Detection-Guided Monocular Depth Estimation: A Study of Fusion Effectiveness
 
-MEng Dissertation Project - University of Leeds, 2024-2025
 
 ## Overview
 
